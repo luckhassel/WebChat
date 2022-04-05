@@ -12,6 +12,7 @@ import { User } from './user';
 export class RegisterComponent implements OnInit {
   username: string = '';
   password: string = '';
+  loading = false;
 
   constructor(private router: Router,
     private register: RegisterService) { }
@@ -20,6 +21,7 @@ export class RegisterComponent implements OnInit {
   }
 
   Register() {
+    this.loading = !this.loading;
     console.log(this.username);
     console.log(this.password);
       const newUser = {

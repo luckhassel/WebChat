@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { LoginService } from 'src/app/login/login.service';
 import * as signalR from '@microsoft/signalr';
 import { IHttpConnectionOptions } from '@microsoft/signalr';
+import { BaseurlService } from 'src/app/services/baseurl.service';
 
 interface Message  {
   user: string,
@@ -34,10 +35,10 @@ export class MessagesComponent implements OnInit {
   messageToSend: string = "";
   connection = new signalr.HubConnectionBuilder()
     .configureLogging(signalR.LogLevel.Information)
-    .withUrl("https://localhost:44331/chatHub", this.options)
+    .withUrl(`${this.baseUrl.getBaseUrl()}/chatHub`, this.options)
     .build();
 
-  constructor(private http: HttpClient, private login: LoginService) 
+  constructor(private http: HttpClient, private login: LoginService, private baseUrl: BaseurlService) 
   {
     this.getFirstMessages(); 
     this.startConnection();
@@ -52,7 +53,7 @@ export class MessagesComponent implements OnInit {
   }
   
   getFirstMessages(){
-    this.http.get<Message[]>("https://localhost:44331/api/chat/message?amount=50", this.header)
+    this.http.get<Message[]>(`${this.baseUrl.getBaseUrl()}/api/chat/message?amount=50`, this.header)
               .subscribe(response => {
                 for (var i = (response.length - 1); i >= 0; i--){
                   this.messages.push(response[i]);

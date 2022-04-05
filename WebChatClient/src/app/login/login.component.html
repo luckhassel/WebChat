@@ -11,5 +11,6 @@
   <div>
       <label [routerLink]="['/register']"><strong>Click to Register</strong></label>
   </div>
-  <button (keydown.enter)="Login()" (click)="Login()" class="btn btn-primary">Submit</button>
+  <button (keydown.enter)="Login()" (click)="Login()" class="btn btn-primary" [hidden]="loading">Submit</button>
+  <div class="spinner-border" [hidden]="!loading"></div>
 </div>

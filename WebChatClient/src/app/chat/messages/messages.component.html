@@ -1,6 +1,6 @@
 <body>   
     <h2 align="center">{{title}}</h2>
-    <div class="chatBox">
+    <div class="chatBox"> 
         <div class="messageBox" *ngFor="let item of messages.slice(lowerlimit, 50 + lowerlimit)">
         <p><strong>{{item.user}}</strong></p>
         <p>{{item.content}}</p>

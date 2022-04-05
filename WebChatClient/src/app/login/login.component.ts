@@ -14,6 +14,7 @@ export class LoginComponent implements OnInit {
 
   username: string = '';
   password: string = '';
+  loading = false;
 
   constructor(private router: Router,
     private login: LoginService) { }
@@ -22,6 +23,7 @@ export class LoginComponent implements OnInit {
   }
 
   Login() {
+    this.loading = !this.loading;
     console.log(this.username);
     console.log(this.password);
       const userLog = {
