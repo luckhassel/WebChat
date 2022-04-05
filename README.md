@@ -7,7 +7,7 @@ Once you have all done, just run the project using "ng serve". It will start the
 ## Server
 To have the server up and running, you should just restore all the package dependencies (it will probably happen when building the project).
 This project will run on port "44331".
-This will consume and store data in your local SQL database.
+The database used is SQL local database. To create de database for the project, in the Nuger Package Manager console, run the command "Update-Database".
 There are some unit tests that are testing messages controller and login controller.
 
 ## Message broker
