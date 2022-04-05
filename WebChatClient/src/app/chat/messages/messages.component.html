@@ -1,0 +1,14 @@
+<body>   
+    <h2 align="center">{{title}}</h2>
+    <div class="chatBox">
+        <div class="messageBox" *ngFor="let item of messages">
+        <p><strong>{{item.user}}</strong></p>
+        <p>{{item.content}}</p>
+        <span class="time-right">{{item.date | date: 'short'}}</span>
+        </div>
+    </div>
+    <table>
+        <td><input class="form-control" type="text" [(ngModel)] = "messageToSend"/></td>
+        <td><button (keyup.enter)="sendMessage()" (click)="sendMessage()" class="btn btn-primary">Send</button></td>
+    </table>  
+</body>
