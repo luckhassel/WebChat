@@ -9,10 +9,10 @@ namespace WebChat.Controllers
 {
     [ApiController]
     [Route("/api/login")]
-    public class Login : ControllerBase
+    public class LoginController : ControllerBase
     {
         private readonly IUsersRepository _userRepository;
-        public Login(IUsersRepository userRepository)
+        public LoginController(IUsersRepository userRepository)
         {
             _userRepository = userRepository;
         }

@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using WebChat.DbContexts;
 using WebChat.Entities;
 
@@ -21,9 +23,9 @@ namespace WebChat.Services.Messages
             _context.Add(message);
         }
 
-        public IEnumerable<Message> GetFirstMessages()
+        public async Task<IEnumerable<Message>> GetFirstMessages(int amount)
         {
-            return _context.Messages.OrderBy(m => m.Date).Take(50);
+            return await _context.Messages.OrderByDescending(m => m.Date).Take(amount).ToListAsync();
         }
 
         public void Save()

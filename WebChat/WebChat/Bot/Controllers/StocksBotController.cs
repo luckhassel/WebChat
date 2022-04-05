@@ -10,7 +10,7 @@ namespace WebChat.Bot.Controllers
 {
     [ApiController]
     [Route("/api/stocks")]
-    public class StocksBot : ControllerBase
+    public class StocksBotController : ControllerBase
     {
 
         private readonly IStocksBotService _stocks;
@@ -18,7 +18,7 @@ namespace WebChat.Bot.Controllers
         private readonly ConnectionFactory _factory;
         private const string QUEUE_NAME = "messages";
 
-        public StocksBot(IStocksBotService stocks)
+        public StocksBotController(IStocksBotService stocks)
         {
             _stocks = stocks;
             _botName = "StockBot";
@@ -29,7 +29,7 @@ namespace WebChat.Bot.Controllers
         }
 
         [HttpGet("{code}")]
-        public async Task<ActionResult<StockToSendDTO>> Index(string code)
+        public async Task<ActionResult<StockToSendDTO>> ForwardStock(string code)
         {
             string messageToSend;
             try

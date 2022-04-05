@@ -31,9 +31,9 @@ namespace WebChat
             if (_messages.IsStockBotMessage(message))
             {
                 await _stocks.GetStocks(_stocks.GetStockCode(message));
-                var _message = _broker.GetMessage();
-                if (_message != null)
-                    await Clients.All.SendAsync("SendMessage", _message.User, _message.Content);
+                var messageReceived = _broker.GetMessage();
+                if (messageReceived != null)
+                    await Clients.All.SendAsync("SendMessage", messageReceived.User, messageReceived.Content);
             }
             else
             {

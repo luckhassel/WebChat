@@ -14,6 +14,7 @@ namespace UnitTest
     {
         private readonly Message _message = new Message { User = "Test", Content = "Hello World" };
         private readonly IEnumerable<MessageToSendDTO> _messagesToSend;
+        private readonly IEnumerable<Messages> _messagesReceived;
 
         [Fact]
         public void AddMessageSuccess()
@@ -23,7 +24,7 @@ namespace UnitTest
             A.CallTo(() => messageRepo.AddMessage(_message));
             A.CallTo(() => messageRepo.Save());
 
-            var instance = new Chat(messageRepo, mapper);
+            var instance = new ChatController(messageRepo, mapper);
 
             var controller = instance.AddMessage(_message);
 
@@ -33,18 +34,19 @@ namespace UnitTest
         [Fact]
         public void GetMessagesSuccess()
         {
+            int amount = 50;
             var messageRepo = A.Fake<IMessagesRepository>();
             var mapper = A.Fake<IMapper>();
-            A.CallTo(() => messageRepo.AddMessage(_message));
+            A.CallTo(() => messageRepo.GetFirstMessages(amount));
             A.CallTo(() => messageRepo.Save());
             A.CallTo(() => mapper.Map<IEnumerable<MessageToSendDTO>>(_message))
                 .Returns(_messagesToSend);
 
-            var instance = new Chat(messageRepo, mapper);
+            var instance = new ChatController(messageRepo, mapper);
 
-            var controller = instance.GetFirstMessages();
+            var controller = instance.GetFirstMessages(amount);
 
-            Assert.IsType<OkObjectResult>(controller.Result);
+            Assert.IsType<OkObjectResult>(controller.Result.Result);
         }
     }
 }

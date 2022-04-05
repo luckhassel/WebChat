@@ -20,7 +20,7 @@ namespace UnitTest
             A.CallTo(() => userRepo.AddUser(_user));
             A.CallTo(() => userRepo.Save());
 
-            var instance = new Login(userRepo);
+            var instance = new LoginController(userRepo);
 
             var controller = instance.AddUser(_user);
 
@@ -35,7 +35,7 @@ namespace UnitTest
             A.CallTo(() => userRepo.AddUser(_user));
             A.CallTo(() => userRepo.Save());
 
-            var instance = new Login(userRepo);
+            var instance = new LoginController(userRepo);
 
             var controller = instance.AddUser(_user);
 
@@ -52,7 +52,7 @@ namespace UnitTest
             A.CallTo(() => userRepo.AddUser(_user));
             A.CallTo(() => userRepo.Save());
 
-            var instance = new Login(userRepo);
+            var instance = new LoginController(userRepo);
 
             var controller = instance.AddUser(_user);
 
@@ -66,7 +66,7 @@ namespace UnitTest
             var userRepo = A.Fake<IUsersRepository>();
             A.CallTo(() => userRepo.GetUser(_username)).Returns(null);
 
-            var instance = new Login(userRepo);
+            var instance = new LoginController(userRepo);
 
             var controller = instance.Authenticate(_user);
 
@@ -81,7 +81,7 @@ namespace UnitTest
             A.CallTo(() => userRepo.GetUser(_username)).Returns(_user);
             A.CallTo(() => userRepo.PasswordMatch(_user.Password, _user.Password)).Returns(false);
 
-            var instance = new Login(userRepo);
+            var instance = new LoginController(userRepo);
 
             var controller = instance.Authenticate(_user);
 

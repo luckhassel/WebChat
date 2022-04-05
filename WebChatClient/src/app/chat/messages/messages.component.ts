@@ -28,6 +28,8 @@ export class MessagesComponent implements OnInit {
 
   messages: Message[] = [];
   firstMessages: Message[] = [];
+  lowerlimit = 0;
+  joined = false;
   
   messageToSend: string = "";
   connection = new signalr.HubConnectionBuilder()
@@ -50,19 +52,19 @@ export class MessagesComponent implements OnInit {
   }
   
   getFirstMessages(){
-    this.http.get<Message[]>("https://localhost:44331/api/chat", this.header)
+    this.http.get<Message[]>("https://localhost:44331/api/chat/message?amount=50", this.header)
               .subscribe(response => {
-                for (var i = 0; i < response.length; i++){
+                for (var i = (response.length - 1); i >= 0; i--){
                   this.messages.push(response[i]);
                 }
               });
   }
 
   startConnection(){
-    this.connection.start();
+    this.connection.start().then(() => { this.joined = true; }, (error) => console.log("Failed to connect to Hub"));
 
     this.connection.on("SendMessage", (user: string, content: string, date: Date) => {
-      if(this.messages.length >= 50) delete this.messages[0];
+      this.lowerlimit++;
       this.messages.push({
         user: user,
         content: content,

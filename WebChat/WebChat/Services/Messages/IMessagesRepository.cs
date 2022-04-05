@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using WebChat.Entities;
 
 namespace WebChat.Services.Messages
 {
     public interface IMessagesRepository
     {
-        public IEnumerable<Message> GetFirstMessages();
+        public Task<IEnumerable<Message>> GetFirstMessages(int amount);
         public void AddMessage(Message message);
         public void Save();
     }
