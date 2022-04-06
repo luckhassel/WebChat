@@ -14,4 +14,4 @@ There are some unit tests that are testing messages controller and login control
 The message broker used in this project is rabbitMQ. So, to get this properly working, you should install rabbitMQ in your machine and start it's service.
 
 ## General instructions
-Once the front, back-end and rabbitMQ are running, you can acess "localhost:4200". Then, you can register a new user and login with this user. There, you will have access to the chat and also will be able to send stocks commands.
+Once the front, back-end and rabbitMQ are running, you can acess "localhost:4200". Then, you can register a new user and login with this user. If the login suceed, you will have access to chat room. First, you should select your Group and join. Then, you will be able to send receive messages that are just being sent to that specific room.
