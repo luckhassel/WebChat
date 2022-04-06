@@ -9,7 +9,8 @@ import { BaseurlService } from 'src/app/services/baseurl.service';
 interface Message  {
   user: string,
   content: string
-  date: Date
+  date: Date,
+  room: string
 }
 
 @Component({
@@ -31,6 +32,9 @@ export class MessagesComponent implements OnInit {
   firstMessages: Message[] = [];
   lowerlimit = 0;
   joined = false;
+  groupToConnect = "";
+  leaveOrJoin = false;
+  connectedOnce = false;
   
   messageToSend: string = "";
   connection = new signalr.HubConnectionBuilder()
@@ -39,8 +43,7 @@ export class MessagesComponent implements OnInit {
     .build();
 
   constructor(private http: HttpClient, private login: LoginService, private baseUrl: BaseurlService) 
-  {
-    this.getFirstMessages(); 
+  { 
     this.startConnection();
   }
 
@@ -52,8 +55,8 @@ export class MessagesComponent implements OnInit {
       .set('Authorization',  `Bearer ${this.login.getToken()}`)
   }
   
-  getFirstMessages(){
-    this.http.get<Message[]>(`${this.baseUrl.getBaseUrl()}/api/chat/message?amount=50`, this.header)
+  getFirstMessages(room: string){
+    this.http.get<Message[]>(`${this.baseUrl.getBaseUrl()}/api/chat/message?amount=50&room=${room}`, this.header)
               .subscribe(response => {
                 for (var i = (response.length - 1); i >= 0; i--){
                   this.messages.push(response[i]);
@@ -63,19 +66,38 @@ export class MessagesComponent implements OnInit {
 
   startConnection(){
     this.connection.start().then(() => { this.joined = true; }, (error) => console.log("Failed to connect to Hub"));
-
-    this.connection.on("SendMessage", (user: string, content: string, date: Date) => {
-      this.lowerlimit++;
-      this.messages.push({
-        user: user,
-        content: content,
-        date: date
-      });
-    });
   }
 
   sendMessage(){
-    this.connection.invoke("SendMessage", this.login.getUsername(), this.messageToSend, );
+    this.connection.invoke("SendMessage", this.login.getUsername(), this.messageToSend, this.groupToConnect, false, false);
     this.messageToSend = "";
+  }
+
+  connectToGroup(){
+    this.leaveOrJoin = !this.leaveOrJoin;
+    this.getFirstMessages(this.groupToConnect);
+    this.connection.invoke("SendMessage", this.login.getUsername(), this.messageToSend, this.groupToConnect, true, false);
+    if(!this.connectedOnce)
+      this.connectToMessages();
+    this.connectedOnce = true;
+  }
+  
+  leaveGroup(){
+    this.leaveOrJoin = !this.leaveOrJoin;
+    this.messages = [];
+    this.connection.invoke("SendMessage", this.login.getUsername(), this.messageToSend, this.groupToConnect, false, true);
+  }
+
+  connectToMessages(){
+    this.connection.on("SendMessage", (user: string, content: string, date: Date, room: string) => {
+      if(!!user && !!content){
+        this.messages.push({
+          user: user,
+          content: content,
+          date: date,
+          room: room == undefined ? "of Bot": room
+        });
+      }
+    });
   }
 }

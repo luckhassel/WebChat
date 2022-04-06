@@ -1,14 +1,25 @@
-<body>   
-    <h2 align="center">{{title}}</h2>
-    <div class="chatBox"> 
-        <div class="messageBox" *ngFor="let item of messages.slice(lowerlimit, 50 + lowerlimit)">
-        <p><strong>{{item.user}}</strong></p>
-        <p>{{item.content}}</p>
-        <span class="time-right">{{item.date | date: 'short'}}</span>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 mb-2 joinDiv" >
+                <input class="form-control groupForm" type="text" [(ngModel)] = "groupToConnect" placeholder="Group" [disabled]="leaveOrJoin"/>
+                <button  (click)="connectToGroup()" class="btn btn-primary" [disabled]="leaveOrJoin">Join</button>
+                <button  (click)="leaveGroup()" class="btn btn-primary" [disabled]="!leaveOrJoin">Leave</button>
+            </div>
+            <div class="mb-2">   
+                <h2 align="center">{{title}}</h2>
+                <div class="chatBox"> 
+                    <div class="messageBox" *ngFor="let item of messages">
+                    <p><strong>{{item.user + " - Room " + item.room}}</strong></p>
+                    <p>{{item.content}}</p>
+                    <span class="time-right">{{item.date | date: 'short'}}</span>
+                    </div>
+                </div>
+                <table>
+                    <td><input class="form-control" type="text" [(ngModel)] = "messageToSend"   placeholder="Message"/></td>
+                    <td><button (keyup.enter)="sendMessage()" (click)="sendMessage()" class="btn btn-primary" [disabled]="!joined" >Send</button></td>
+                </table>
+            </div>
         </div>
     </div>
-    <table>
-        <td><input class="form-control" type="text" [(ngModel)] = "messageToSend"/></td>
-        <td><button (keyup.enter)="sendMessage()" (click)="sendMessage()" class="btn btn-primary" [disabled]="!joined" >Send</button></td>
-    </table>  
 </body>

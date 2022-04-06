@@ -9,5 +9,6 @@ namespace WebChat.Models
         public DateTime Date { get; set; }
 
         public string User { get; set; }
+        public string Room { get; set; }
     }
 }

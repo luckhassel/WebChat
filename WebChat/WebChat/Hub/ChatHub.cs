@@ -26,22 +26,43 @@ namespace WebChat
         }
 
         [Authorize]
-        public async Task SendMessage(string user, string message)
+        public async Task SendMessage(string user, string message, string room, bool join, bool leave)
         {
             if (_messages.IsStockBotMessage(message))
             {
                 await _stocks.GetStocks(_stocks.GetStockCode(message));
                 var messageReceived = _broker.GetMessage();
                 if (messageReceived != null)
-                    await Clients.All.SendAsync("SendMessage", messageReceived.User, messageReceived.Content);
+                    await Clients.Group(room).SendAsync("SendMessage", messageReceived.User, messageReceived.Content);
             }
             else
             {
-                var date = DateTime.Now;
-                await Clients.All.SendAsync("SendMessage", user, message, date);
-                _messagesRepository.AddMessage(new Message { User = user, Content = message, Date = date });
-                _messagesRepository.Save();
+                if (join)
+                {
+                    await JoinRoom(room).ConfigureAwait(false);
+                }
+                else if (leave)
+                {
+                    await LeaveRoom(room);
+                }
+                else
+                {
+                    var date = DateTime.Now;
+                    await Clients.Group(room).SendAsync("SendMessage", user, message, date, room);
+                    _messagesRepository.AddMessage(new Message { User = user, Content = message, Date = date, Room = room });
+                    _messagesRepository.Save();
+                }
             }
+        }
+
+        public Task JoinRoom(string room)
+        {
+            return Groups.AddToGroupAsync(Context.ConnectionId, room);
+        }
+        
+        public Task LeaveRoom(string room)
+        {
+            return Groups.RemoveFromGroupAsync(Context.ConnectionId, room);
         }
     }
 }

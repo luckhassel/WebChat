@@ -15,5 +15,7 @@ namespace WebChat.Entities
 
         [Required]
         public string User { get; set; }
+        [Required]
+        public string Room { get; set; }
     }
 }

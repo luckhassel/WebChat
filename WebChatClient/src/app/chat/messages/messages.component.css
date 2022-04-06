@@ -55,5 +55,13 @@ color: #999;
 }
 
 input{
-  width:700px;
+  width:300px;
+}
+
+.groupForm{
+  width: 200px;
+}
+
+.joinDiv{
+  margin-top: 250px;
 }

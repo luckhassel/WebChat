@@ -35,16 +35,17 @@ namespace UnitTest
         public void GetMessagesSuccess()
         {
             int amount = 50;
+            string room = "room";
             var messageRepo = A.Fake<IMessagesRepository>();
             var mapper = A.Fake<IMapper>();
-            A.CallTo(() => messageRepo.GetFirstMessages(amount));
+            A.CallTo(() => messageRepo.GetFirstMessages(amount, room));
             A.CallTo(() => messageRepo.Save());
             A.CallTo(() => mapper.Map<IEnumerable<MessageToSendDTO>>(_message))
                 .Returns(_messagesToSend);
 
             var instance = new ChatController(messageRepo, mapper);
 
-            var controller = instance.GetFirstMessages(amount);
+            var controller = instance.GetFirstMessages(amount, room);
 
             Assert.IsType<OkObjectResult>(controller.Result.Result);
         }
