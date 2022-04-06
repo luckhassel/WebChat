@@ -34,9 +34,9 @@ namespace WebChat.Controllers
         [HttpGet]
         [Authorize]
         public async Task<ActionResult<MessageToSendDTO>> GetFirstMessages(
-            [FromQuery(Name ="amount")] int amount, [FromQuery(Name = "room")] string room)
+            [FromQuery(Name = "room")] string room, [FromQuery(Name = "amount")] int amount = 50)
         {
-            var messages = await _messagesRepository.GetFirstMessages(amount, room);
+            var messages = await _messagesRepository.GetFirstMessages(room, amount);
             return Ok(_mapper.Map<IEnumerable<MessageToSendDTO>>(messages));
         }
     }

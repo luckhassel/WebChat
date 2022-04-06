@@ -56,7 +56,7 @@ export class MessagesComponent implements OnInit {
   }
   
   getFirstMessages(room: string){
-    this.http.get<Message[]>(`${this.baseUrl.getBaseUrl()}/api/chat/message?amount=50&room=${room}`, this.header)
+    this.http.get<Message[]>(`${this.baseUrl.getBaseUrl()}/api/chat/message?room=${room}`, this.header)
               .subscribe(response => {
                 for (var i = (response.length - 1); i >= 0; i--){
                   this.messages.push(response[i]);

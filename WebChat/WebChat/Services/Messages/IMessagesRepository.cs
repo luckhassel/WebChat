@@ -6,7 +6,7 @@ namespace WebChat.Services.Messages
 {
     public interface IMessagesRepository
     {
-        public Task<IEnumerable<Message>> GetFirstMessages(int amount, string room);
+        public Task<IEnumerable<Message>> GetFirstMessages(string room, int amount);
         public void AddMessage(Message message);
         public void Save();
     }

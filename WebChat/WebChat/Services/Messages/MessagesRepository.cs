@@ -23,7 +23,7 @@ namespace WebChat.Services.Messages
             _context.Add(message);
         }
 
-        public async Task<IEnumerable<Message>> GetFirstMessages(int amount, string room)
+        public async Task<IEnumerable<Message>> GetFirstMessages(string room, int amount)
         {
             return await _context.Messages.OrderByDescending(m => m.Date).Where(m => m.Room == room).Take(amount).ToListAsync();
         }
