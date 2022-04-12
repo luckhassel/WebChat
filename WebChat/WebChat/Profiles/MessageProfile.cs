@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
-using WebChat.Entities;
-using WebChat.Models;
+using Domain.Entities;
 
 namespace WebChat.Profiles
 {

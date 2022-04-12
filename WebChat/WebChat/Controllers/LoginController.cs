@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Domain.Entities;
+using Domain.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using WebChat.Entities;
-using WebChat.Services.Auth;
-using WebChat.Services.Users;
+using Common;
 
 namespace WebChat.Controllers
 {
@@ -11,8 +11,8 @@ namespace WebChat.Controllers
     [Route("/api/login")]
     public class LoginController : ControllerBase
     {
-        private readonly IUsersRepository _userRepository;
-        public LoginController(IUsersRepository userRepository)
+        private readonly IUserRepositoryService _userRepository;
+        public LoginController(IUserRepositoryService userRepository)
         {
             _userRepository = userRepository;
         }
@@ -30,7 +30,7 @@ namespace WebChat.Controllers
             if (!pwdmatch)
                 return NotFound(new { message = "Wrong password" });
 
-            var token = Token.GenerateToken(user);
+            var token = Common.Settings.GenerateToken(user);
 
             user.Password = "";
 
@@ -43,15 +43,14 @@ namespace WebChat.Controllers
 
         [HttpPost("register")]
         [AllowAnonymous]
-        public ActionResult AddUser(User user)
+        public ActionResult Register(User user)
         {
-            if (_userRepository.UserExists(user.Username))
+            if (_userRepository.AddUser(user))
             {
-                return BadRequest($"User {user.Username} already exists");
+                _userRepository.Save();
+                return Created("", new { user.Id, user.Username, user.Role });
             }
-            _userRepository.AddUser(user);
-            _userRepository.Save();
-            return Created("", new { user.Id, user.Username, user.Role });
+            return BadRequest();
         }
     }
 }

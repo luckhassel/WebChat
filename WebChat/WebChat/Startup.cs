@@ -1,23 +1,20 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
-using System;
 using System.Text;
 using System.Threading.Tasks;
-using WebChat.Bot.Services;
-using WebChat.DbContexts;
-using WebChat.MessageBroker;
-using WebChat.Models;
-using WebChat.Services.Auth;
-using WebChat.Services.Broker;
-using WebChat.Services.Messages;
-using WebChat.Services.Stocks;
-using WebChat.Services.Users;
+using Common;
+using Application;
+using WebChat.Broker;
+using System;
+using Infra.Stocks;
+using Infra.Database;
+using WebChat.Settings;
+using Microsoft.EntityFrameworkCore;
 
 namespace WebChat
 {
@@ -33,7 +30,11 @@ namespace WebChat
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddSignalR();
+            services.AddSignalR(hubOptions =>
+            {
+                hubOptions.EnableDetailedErrors = true;
+                hubOptions.KeepAliveInterval = TimeSpan.FromMinutes(1);
+            });
             services.AddCors(options =>
             {
                 options.AddPolicy("allowSpecificOrigins", builder =>
@@ -45,7 +46,7 @@ namespace WebChat
                 });
             });
 
-            var key = Encoding.ASCII.GetBytes(Settings.Settings.Secret);
+            var key = Encoding.ASCII.GetBytes(Common.Settings.Secret);
             services.AddAuthentication(x =>
             {
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -78,19 +79,18 @@ namespace WebChat
                 };
             });
 
-            services.AddHostedService<ProcessMesageConsumer>();
-            services.Configure<RabbitMqConfiguration>(Configuration.GetSection("RabbitMqConfig"));
+            
 
+            services.AddHostedService<BrokerManager>();
+            services.AddSingleton<IWebChatConfiguration, WebChatConfiguration>();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
-            services.AddSingleton<IBroker, Broker>();
-            services.AddSingleton<IPassword, Password>();
-            services.AddScoped<IMessages, Messages>();
-            services.AddScoped<IStocks, Stocks>();
-            services.AddScoped<IStocksBotService, StocksBotService>();
-            services.AddScoped<IMessagesRepository, MessagesRepository>();
-            services.AddScoped<IUsersRepository, UsersRepository>();
-            services.AddDbContext<MessagesLibraryContext>(x => x.UseSqlServer(Configuration.GetConnectionString("ConnStr")));
+            services.AddStocksModule();
+            services.AddDabaseModule();
+            services.AddApplicationModule();
+
+            services.AddDbContext<MessagesLibraryContext>(x => x.UseSqlServer(Configuration.GetConnectionString("ConnStr"), 
+                x => x.MigrationsAssembly("WebChat")));
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -100,7 +100,6 @@ namespace WebChat
                 app.UseDeveloperExceptionPage();
             }
 
-            //app.UseHttpsRedirection();
             app.UseCors("allowSpecificOrigins");
             app.UseRouting();
 
