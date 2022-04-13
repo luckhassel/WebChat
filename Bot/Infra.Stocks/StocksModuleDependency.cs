@@ -1,7 +1,6 @@
 ﻿using Domain.Adapters;
 using Infra.Stocks.Operations;
 using Microsoft.Extensions.DependencyInjection;
-using System;
 
 namespace Infra.Stocks
 {

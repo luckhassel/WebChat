@@ -16,14 +16,14 @@ namespace WebChat
         private readonly IMessagesRepositoryService _messagesRepository;
         private readonly IWebChatConfiguration _configuration;
 
-        public ChatHub(IMessagesService messages, IBrokerService broker, IStockService stocks, 
+        public ChatHub(IMessagesService messages, IBrokerService broker, IStockService stocks,
             IMessagesRepositoryService messagesRepository, IWebChatConfiguration configuration)
         {
-            _configuration = configuration;
-            _broker = broker;
-            _messages = messages;
-            _stocks = stocks;
-            _messagesRepository = messagesRepository;
+            _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
+            _broker = broker ?? throw new ArgumentNullException(nameof(broker));
+            _messages = messages ?? throw new ArgumentNullException(nameof(messages));
+            _stocks = stocks ?? throw new ArgumentNullException(nameof(stocks));
+            _messagesRepository = messagesRepository ?? throw new ArgumentNullException(nameof(messagesRepository));
         }
 
         [Authorize]
@@ -60,7 +60,7 @@ namespace WebChat
         {
             return Groups.AddToGroupAsync(Context.ConnectionId, room);
         }
-        
+
         public Task LeaveRoom(string room)
         {
             return Groups.RemoveFromGroupAsync(Context.ConnectionId, room);

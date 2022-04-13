@@ -1,20 +1,19 @@
+using Application;
+using Infra.Database;
+using Infra.Stocks;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
+using System;
 using System.Text;
 using System.Threading.Tasks;
-using Common;
-using Application;
 using WebChat.Broker;
-using System;
-using Infra.Stocks;
-using Infra.Database;
 using WebChat.Settings;
-using Microsoft.EntityFrameworkCore;
 
 namespace WebChat
 {
@@ -79,7 +78,7 @@ namespace WebChat
                 };
             });
 
-            
+
 
             services.AddHostedService<BrokerManager>();
             services.AddSingleton<IWebChatConfiguration, WebChatConfiguration>();
@@ -89,7 +88,7 @@ namespace WebChat
             services.AddDabaseModule();
             services.AddApplicationModule();
 
-            services.AddDbContext<MessagesLibraryContext>(x => x.UseSqlServer(Configuration.GetConnectionString("ConnStr"), 
+            services.AddDbContext<MessagesLibraryContext>(x => x.UseSqlServer(Configuration.GetConnectionString("ConnStr"),
                 x => x.MigrationsAssembly("WebChat")));
         }
 

@@ -1,9 +1,7 @@
 ﻿using Bot.Settings;
 using Domain.Services;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using RabbitMQ.Client;
-using System.Text;
+using System;
 using System.Threading.Tasks;
 
 namespace WebChat.Bot.Controllers
@@ -17,13 +15,13 @@ namespace WebChat.Bot.Controllers
         private readonly IStocksService _stock;
         private readonly IBrokerConfiguration _configuration;
         private readonly string _errorMessage;
-        public StocksBotController(IBrokerService broker, IMessagesService message, 
+        public StocksBotController(IBrokerService broker, IMessagesService message,
             IStocksService stock, IBrokerConfiguration configuration)
         {
-            _configuration = configuration;
-            _broker = broker;
-            _stock = stock;
-            _message = message;
+            _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
+            _broker = broker ?? throw new ArgumentNullException(nameof(broker));
+            _stock = stock ?? throw new ArgumentNullException(nameof(stock));
+            _message = message ?? throw new ArgumentNullException(nameof(message));
             _errorMessage = "Error trying to retrieve stock";
         }
 

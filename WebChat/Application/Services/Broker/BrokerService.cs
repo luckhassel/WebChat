@@ -1,6 +1,6 @@
-﻿using Domain.Services;
+﻿using Domain.Entities;
+using Domain.Services;
 using System;
-using Domain.Entities;
 
 namespace Application.Services
 {
@@ -9,7 +9,7 @@ namespace Application.Services
         private Message _message;
         public void AddMessage(Message message)
         {
-            _message = message ?? throw new ArgumentNullException(nameof(message)); ;
+            _message = message;
         }
 
         public Message GetMessage()

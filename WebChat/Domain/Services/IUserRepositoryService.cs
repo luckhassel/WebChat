@@ -1,7 +1,5 @@
 ﻿using Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Threading.Tasks;
 
 namespace Domain.Services
 {
@@ -9,7 +7,7 @@ namespace Domain.Services
     {
         public bool AddUser(User user);
         public User GetUser(string userName);
-        public void Save();
+        public Task Save();
         public bool PasswordMatch(string password, string passwordStored);
     }
 }

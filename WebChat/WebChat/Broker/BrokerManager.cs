@@ -1,13 +1,13 @@
-﻿using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Options;
+﻿using Domain.Entities;
+using Domain.Services;
+using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
+using System;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Domain.Entities;
-using Domain.Services;
 using WebChat.Settings;
 
 namespace WebChat.Broker
@@ -22,8 +22,8 @@ namespace WebChat.Broker
 
         public BrokerManager(IBrokerService broker, IWebChatConfiguration configuration)
         {
-            _configuration = configuration;
-            _broker = broker;
+            _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
+            _broker = broker ?? throw new ArgumentNullException(nameof(broker));
             var factory = new ConnectionFactory
             {
                 HostName = _configuration.RabbitConfig.Host

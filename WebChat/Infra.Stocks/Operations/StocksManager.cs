@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Domain.Adapters;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
-using Domain.Adapters;
 
 namespace Infra.Stocks.Operations
 {

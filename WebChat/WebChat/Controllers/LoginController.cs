@@ -2,8 +2,8 @@
 using Domain.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Threading.Tasks;
-using Common;
 
 namespace WebChat.Controllers
 {
@@ -14,7 +14,7 @@ namespace WebChat.Controllers
         private readonly IUserRepositoryService _userRepository;
         public LoginController(IUserRepositoryService userRepository)
         {
-            _userRepository = userRepository;
+            _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
         }
 
         [HttpPost("auth")]
@@ -43,11 +43,11 @@ namespace WebChat.Controllers
 
         [HttpPost("register")]
         [AllowAnonymous]
-        public ActionResult Register(User user)
+        public async Task<ActionResult> Register(User user)
         {
             if (_userRepository.AddUser(user))
             {
-                _userRepository.Save();
+                await _userRepository.Save();
                 return Created("", new { user.Id, user.Username, user.Role });
             }
             return BadRequest();

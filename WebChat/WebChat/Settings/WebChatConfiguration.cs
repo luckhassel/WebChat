@@ -1,8 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace WebChat.Settings
 {
@@ -12,15 +9,15 @@ namespace WebChat.Settings
         private RabbitMqConfiguration rabbitMqConfig;
         public WebChatConfiguration(IConfiguration configuration)
         {
-            _configuration = configuration;
+            _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
         }
         public string BotUrl => _configuration["BotUrl"];
 
-        public RabbitMqConfiguration RabbitConfig 
+        public RabbitMqConfiguration RabbitConfig
         {
             get
             {
-                rabbitMqConfig = new RabbitMqConfiguration(_configuration.GetSection("RabbitMqConfig")["Host"], 
+                rabbitMqConfig = new RabbitMqConfiguration(_configuration.GetSection("RabbitMqConfig")["Host"],
                     _configuration.GetSection("RabbitMqConfig")["Queue"]);
                 return rabbitMqConfig;
             }

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Domain.Adapters
+﻿namespace Domain.Adapters
 {
     public interface IBrokerAdapter
     {

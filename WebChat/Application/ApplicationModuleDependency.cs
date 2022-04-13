@@ -3,7 +3,6 @@ using Application.Services.Auth;
 using Application.Services.Stocks;
 using Domain.Services;
 using Microsoft.Extensions.DependencyInjection;
-using System;
 
 namespace Application
 {

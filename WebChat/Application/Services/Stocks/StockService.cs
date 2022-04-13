@@ -1,8 +1,6 @@
 ﻿using Domain.Adapters;
 using Domain.Services;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Application.Services.Stocks
@@ -12,7 +10,7 @@ namespace Application.Services.Stocks
         private readonly IStocksAdapter _adapter;
         public StockService(IStocksAdapter adapter)
         {
-            _adapter = adapter;
+            _adapter = adapter ?? throw new ArgumentNullException(nameof(adapter));
         }
         public string GetStockCode(string message)
         {

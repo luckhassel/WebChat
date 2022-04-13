@@ -1,6 +1,5 @@
 ﻿using Domain.Adapters;
 using Microsoft.Extensions.DependencyInjection;
-using System;
 
 namespace Infra.Database
 {

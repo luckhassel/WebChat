@@ -2,8 +2,7 @@
 using Domain.Entities;
 using Domain.Services;
 using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Threading.Tasks;
 
 namespace Application.Services.Auth
 {
@@ -12,11 +11,11 @@ namespace Application.Services.Auth
         private readonly IUsersRepositoryAdapter _repo;
         public UserRepositoryService(IUsersRepositoryAdapter repo)
         {
-            _repo = repo;
+            _repo = repo ?? throw new ArgumentNullException(nameof(repo));
         }
         public bool AddUser(User user)
         {
-            if(user != null && !UserExists(user.Username))
+            if (user != null && !UserExists(user.Username))
             {
                 user.Password = HashPassword(user.Password);
                 _repo.AddUser(user);
@@ -27,16 +26,16 @@ namespace Application.Services.Auth
 
         public User GetUser(string userName)
         {
-            if(userName == null)
+            if (userName == null)
             {
                 return null;
             }
             return _repo.GetUser(userName);
         }
 
-        public void Save()
+        public async Task Save()
         {
-            _repo.Save();
+            await _repo.Save();
         }
 
         public bool PasswordMatch(string password, string passwordStored)
@@ -46,7 +45,7 @@ namespace Application.Services.Auth
 
         private bool UserExists(string username)
         {
-            if(username == null)
+            if (username == null)
             {
                 return false;
             }

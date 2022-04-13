@@ -2,8 +2,6 @@
 using Domain.Adapters.Entities;
 using Newtonsoft.Json;
 using RabbitMQ.Client;
-using System;
-using System.Collections.Generic;
 using System.Text;
 
 namespace Infra.Broker.Operations
@@ -19,7 +17,7 @@ namespace Infra.Broker.Operations
             using var connection = _factory.CreateConnection();
             using var channel = connection.CreateModel();
             DeclareQueue(channel);
-            
+
             string stringfiedMessage = JsonConvert.SerializeObject(new StockToSendDTO { User = "StockBot", Content = message });
             byte[] bytesMessage = Encoding.UTF8.GetBytes(stringfiedMessage);
 

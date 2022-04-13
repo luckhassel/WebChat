@@ -1,8 +1,6 @@
 ﻿using Domain.Adapters;
 using Domain.Services;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Application.Services
@@ -12,7 +10,7 @@ namespace Application.Services
         private readonly IStockAdapter _stocks;
         public StocksService(IStockAdapter stocks)
         {
-            _stocks = stocks;
+            _stocks = stocks ?? throw new ArgumentNullException(nameof(stocks));
         }
 
         public async Task<string> GetStocks(string url, string code)

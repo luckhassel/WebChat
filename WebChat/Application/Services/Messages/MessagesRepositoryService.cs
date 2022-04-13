@@ -3,22 +3,21 @@ using Domain.Entities;
 using Domain.Services;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Application.Services
 {
-    public class MessagesRepositoryService:IMessagesRepositoryService
+    public class MessagesRepositoryService : IMessagesRepositoryService
     {
         private readonly IMessagesRepositoryAdapter _repo;
         public MessagesRepositoryService(IMessagesRepositoryAdapter repo)
         {
-            _repo = repo;
+            _repo = repo ?? throw new ArgumentNullException(nameof(repo));
         }
 
         public bool AddMessage(Message message)
         {
-            if(message != null)
+            if (message != null)
             {
                 _repo.AddMessage(message);
                 return true;
@@ -28,7 +27,7 @@ namespace Application.Services
 
         public async Task<IEnumerable<Message>> GetFirstMessages(string room, int amount)
         {
-            if(room != null) 
+            if (room != null)
             {
                 return await _repo.GetFirstMessages(room, amount);
             }
