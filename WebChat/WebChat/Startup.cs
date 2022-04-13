@@ -32,7 +32,6 @@ namespace WebChat
             services.AddSignalR(hubOptions =>
             {
                 hubOptions.EnableDetailedErrors = true;
-                hubOptions.KeepAliveInterval = TimeSpan.FromMinutes(1);
             });
             services.AddCors(options =>
             {

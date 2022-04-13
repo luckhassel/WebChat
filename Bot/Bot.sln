@@ -5,13 +5,15 @@ VisualStudioVersion = 16.0.31205.134
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bot", "Bot\Bot.csproj", "{B4E8CF83-E87C-4676-B8C9-3BFFD7A889B2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Domain\Domain.csproj", "{4F2C099B-2D4F-410F-92ED-EC28D5BF1A6B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "Domain\Domain.csproj", "{4F2C099B-2D4F-410F-92ED-EC28D5BF1A6B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infra.Broker", "Infra.Broker\Infra.Broker.csproj", "{485505D0-31EF-4C70-8700-8871EAE85B84}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infra.Broker", "Infra.Broker\Infra.Broker.csproj", "{485505D0-31EF-4C70-8700-8871EAE85B84}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application", "Services\Application.csproj", "{76812001-0919-427C-BE3A-A4C4D12B0600}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "Services\Application.csproj", "{76812001-0919-427C-BE3A-A4C4D12B0600}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infra.Stocks", "Infra.Stocks\Infra.Stocks.csproj", "{ABAC1238-54EF-4E1F-B041-6FC84C353EC8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infra.Stocks", "Infra.Stocks\Infra.Stocks.csproj", "{ABAC1238-54EF-4E1F-B041-6FC84C353EC8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTest", "UnitTest\UnitTest.csproj", "{41C3E596-CB5E-46FF-896A-AA654B64F93C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{ABAC1238-54EF-4E1F-B041-6FC84C353EC8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ABAC1238-54EF-4E1F-B041-6FC84C353EC8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ABAC1238-54EF-4E1F-B041-6FC84C353EC8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{41C3E596-CB5E-46FF-896A-AA654B64F93C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{41C3E596-CB5E-46FF-896A-AA654B64F93C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{41C3E596-CB5E-46FF-896A-AA654B64F93C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{41C3E596-CB5E-46FF-896A-AA654B64F93C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
